@@ -52,9 +52,9 @@ Every agent's reasoning streams live to the dashboard the moment it finishes. Ju
 
 ```mermaid
 graph TD
-    Trigger([POST /api/v1/system/trigger_graph]) --> SocialWatcher
+    Trigger([POST /api/v1/system/trigger_graph])
 
-    subgraph "FastAPI (main.py) - Environment & Mock City APIs"
+    subgraph FastAPI["FastAPI — Mock City Infrastructure"]
         SocialAPI[Social Media API]
         WeatherAPI[Weather API]
         TrafficAPI[Traffic API]
@@ -62,42 +62,42 @@ graph TD
         WS[WebSocket /ws/trace]
     end
 
-    subgraph "LangGraph (ciro_graph.py) - AI Brain Pipeline"
-        SocialWatcher[🕵️ Social Watcher]
-        SensorWatcher[📡 Sensor Watcher]
-        Synthesizer[🧠 Synthesizer]
-        Dispatcher[🦾 Dispatcher]
-        Monitor[📊 Monitor Agent]
+    subgraph Pipeline["LangGraph — AI Agent Pipeline"]
+        SW[Social Watcher]
+        SeW[Sensor Watcher]
+        Syn[Synthesizer]
+        Disp[Dispatcher]
+        Mon[Monitor Agent]
     end
 
     LLM((Gemini 2.5 Flash))
 
-    %% Pipeline Flow
-    SocialWatcher --> SensorWatcher
-    SensorWatcher --> Synthesizer
-    Synthesizer --> Dispatcher
-    Dispatcher --> Monitor
+    Trigger --> SW
+    SW --> SeW
+    SeW --> Syn
+    Syn --> Disp
+    Disp --> Mon
 
-    %% API Connections
-    SocialAPI -->|Read| SocialWatcher
-    WeatherAPI -->|Read| SensorWatcher
-    TrafficAPI -->|Read (Before)| SensorWatcher
-    
-    SocialWatcher <-->|Analyze| LLM
-    Synthesizer <-->|Corroborate| LLM
-    Dispatcher <-->|Structured Output| LLM
+    SocialAPI -->|read| SW
+    WeatherAPI -->|read| SeW
+    TrafficAPI -->|read before| SeW
 
-    Dispatcher -->|Mutate State| ExecuteAPI
-    ExecuteAPI -.->|Internal State Update| TrafficAPI
-    
-    Monitor -->|Read (After) & Validate| TrafficAPI
+    SW -->|query| LLM
+    LLM -->|crisis evaluation| SW
+    Syn -->|query| LLM
+    LLM -->|action plan| Syn
+    Disp -->|query| LLM
+    LLM -->|structured payload| Disp
 
-    %% Live Trace Connections
-    SocialWatcher -.-> WS
-    SensorWatcher -.-> WS
-    Synthesizer -.-> WS
-    Dispatcher -.-> WS
-    Monitor -.-> WS
+    Disp -->|mutate state| ExecuteAPI
+    ExecuteAPI -.->|state update| TrafficAPI
+    Mon -->|read after| TrafficAPI
+
+    SW -.->|stream| WS
+    SeW -.->|stream| WS
+    Syn -.->|stream| WS
+    Disp -.->|stream| WS
+    Mon -.->|stream| WS
 ```
 
 ### The Environment — `main.py`

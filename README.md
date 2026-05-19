@@ -2,13 +2,13 @@
 
 > Autonomous multi-agent AI system that detects urban crises, coordinates emergency response, and validates real-world impact — in real time.
 
-Built for the **Google Antigravity Hackathon** using LangGraph , Gemini 2.5 Flash , and FastAPI.
+Built for the **Google Antigravity Hackathon** using LangGraph, Gemini 2.5 Flash, and FastAPI.
   
 ---
  
 ## The Problem
 
-Islamabad — like most metropolitan cities — faces recurring urban crises: flash floods, road blockages, infrastructure failures. The signals are always there (social media, traffic sensors, weather APIs), but response systems are fragmented, reactive, and slow to coordinate. Critical minutes are lost translating raw data into decisions.
+Islamabad — like most metropolitan cities — faces recurring urban crises: flash floods, road blockages, and infrastructure failures. The signals are always there (social media, traffic sensors, weather APIs), but response systems are fragmented, reactive, and slow to coordinate. Critical minutes are lost translating raw data into decisions.
 
 **CIRO closes that gap.**
 
@@ -23,7 +23,7 @@ Give CIRO a live city data feed. Within seconds, it:
 3. Generates and executes a coordinated response plan
 4. Validates that the intervention actually worked — with measured numbers
 
-No human in a loop. No single massive LLM trying to do everything. A pipeline of specialized agents, each doing one job precisely.
+No human in a loop. No single massive LLM is trying to do everything. A pipeline of specialized agents, each doing one job precisely.
 
 ---
 
@@ -105,7 +105,7 @@ graph TD
 A FastAPI server simulating Islamabad's city infrastructure. It serves two roles:
 
 - **Sensors** (GET endpoints): Mock APIs for social media (`/api/v1/social`), weather (`/api/v1/weather`), and traffic (`/api/v1/traffic`)
-- **Actuator** (POST endpoint): `/api/v1/system/execute` acts as the city control panel — it receives commands from the AI and physically alters city state (closing roads, broadcasting alerts, dispatching services)
+- **Actuator** (POST endpoint): `/api/v1/system/execute` acts as the city control panel — it receives commands from the AI and physically alters the city state (closing roads, broadcasting alerts, dispatching services)
 
 City state is stateful. When CIRO closes a road, the traffic endpoint returns different data on the next poll. This is what makes closed-loop validation real.
 
@@ -130,7 +130,7 @@ Powered by **LangGraph**, this is a sequential `StateGraph` where each node is a
 - Receives both `CrisisEvaluation` (social) and sensor anomaly data
 - If both channels show no anomaly: graph terminates early — no compute wasted
 - If signals corroborate: generates a structured `ActionPlan` — severity level (LOW / HIGH / CRITICAL), target zone coordinates, and specific recommended interventions
-- This is the only node that decides whether real-world action happens
+- This is the only node that decides whether a real-world action happens
 
 #### Node 4 — 🦾 Dispatcher
 - Converts the human-readable `ActionPlan` into a strict machine-executable `ActionPayload` using Pydantic schema enforcement
@@ -153,7 +153,7 @@ Powered by **LangGraph**, this is a sequential `StateGraph` where each node is a
 | Single LLM doing everything → hallucinations | Specialized nodes with single responsibilities |
 | LLM outputs unpredictable JSON → crashes backend | Pydantic `with_structured_output` at every schema boundary |
 | No way to know if response worked | Closed-loop Monitor Agent with measured validation |
-| Agents finish but nobody knows | WebSocket streams each agent's output live as it completes |
+| Agents finish, but nobody knows | WebSocket streams each agent's output live as it completes |
 | Social panic without physical confirmation | Sensor Watcher provides independent corroboration before action |
 
 ---
@@ -231,7 +231,7 @@ GET /api/v1/traffic     # Returns current city traffic state
 POST /api/v1/system/execute
 ```
 
-Receives action payloads from the Dispatcher and mutates city state.
+Receives action payloads from the Dispatcher and mutates the city state.
 
 ### Live Agent Trace
 

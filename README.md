@@ -2,7 +2,7 @@
 
 > Autonomous multi-agent AI system that detects urban crises, coordinates emergency response, and validates real-world impact — in real time.
 
-Built for the **Google Antigravity Hackathon** using LangGraph, Gemini 2.5 Flash, and FastAPI.
+Built for the **Google Antigravity Hackathon** using LangGraph , Gemini 2.5 Flash , and FastAPI.
   
 ---
  

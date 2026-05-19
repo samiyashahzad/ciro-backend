@@ -3,7 +3,7 @@
 > Autonomous multi-agent AI system that detects urban crises, coordinates emergency response, and validates real-world impact — in real time.
 
 Built for the **Google Antigravity Hackathon** using LangGraph, Gemini 2.5 Flash, and FastAPI.
-
+  
 ---
  
 ## The Problem
@@ -23,7 +23,7 @@ Give CIRO a live city data feed. Within seconds, it:
 3. Generates and executes a coordinated response plan
 4. Validates that the intervention actually worked — with measured numbers
 
-No human in the loop. No single massive LLM trying to do everything. A pipeline of specialized agents, each doing one job precisely.
+No human in a loop. No single massive LLM trying to do everything. A pipeline of specialized agents, each doing one job precisely.
 
 ---
 

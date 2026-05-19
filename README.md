@@ -144,7 +144,7 @@ Powered by **LangGraph**, this is a sequential `StateGraph` where each node is a
 - Streams a validation report: before state → after state → impact score
 - If improvement is below threshold, it flags the response as insufficient — the system knows when it failed
 
----
+  
 
 ### Why This Architecture
 
